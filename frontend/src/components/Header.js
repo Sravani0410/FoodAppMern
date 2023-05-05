@@ -1,8 +1,16 @@
 import React from 'react'
-
+import logo from "../assest/logo.png"
 const Header = () => {
   return (
-    <div className='bg-red-500'>Header</div>
+    <header>
+    {/* Desktop */}
+    <div className=''>
+        <div>
+            <img src={logo}/>
+        </div>
+    </div>
+     {/* mobile */}
+    </header>
   )
 }
 
