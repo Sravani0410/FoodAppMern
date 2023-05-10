@@ -1,0 +1,23 @@
+steps to follow the website: 
+
+Frontend:
+========
+1. install the npx create-react-app and for css follow the steps https://tailwindcss.com/docs/guides/create-react-app
+    md ---> moblie version
+    normal thing is desktop version
+2. create the assets for store the images
+3. install the react-router-dom to handle the routes write the code in index.js:
+        import {createBrowserRouter,createRoutesFromElements,Route,RouterProvider} from "react-router-dom";
+        const router = createBrowserRouter(
+        createRoutesFromElements(
+            <Route path="/" element={<App />}>
+            {/* <Route index element={<Home />} /> */}
+            </Route>
+        )
+        );
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        root.render(
+        <RouterProvider router={router}/>
+        );
+4. install the npm install react-icons --save and put the user icon in header.js here when we are importing any library fa indicates the which library we are using
+5 create the pages folder and give route in index.js and for display in pages folder but it is not giving the so Outlet is import from react-router-dom in app.js
