@@ -20,4 +20,28 @@ Frontend:
         <RouterProvider router={router}/>
         );
 4. install the npm install react-icons --save and put the user icon in header.js here when we are importing any library fa indicates the which library we are using
-5 create the pages folder and give route in index.js and for display in pages folder but it is not giving the so Outlet is import from react-router-dom in app.js
+5 create the pages folder and give route in index.js and for display in pages folder but it is not giving the so Outlet is import from react-router-dom in app.
+6. do the add to cart with count using tailwind css:
+ <div className="text-2xl text-slate-600 relative">
+            <BsCartFill />
+            <div className="absolute -top-1 -right-1 text-white bg-red-500 h-4 w-4 rounded-full m-0 text-sm text-center">
+              0
+            </div>
+          </div>
+7. do login with dropdown using tailwind and make usestate and function and change the icon of user:
+import { HiOutlineUserCircle } from "react-icons/hi";
+ const [showmenu, setShowMenu] = useState(false);
+  const handleShowMenu=()=>{
+    setShowMenu(prev=>!prev)
+  }
+ <div className="text-slate-600 " onClick={handleShowMenu}>
+            <div className="text-3xl cursor-pointer" >
+              <HiOutlineUserCircle />
+            </div>
+            {showmenu && (
+              <div className="absolute right-2 bg-white py-2 px-2 shadow drop-shadow">
+                <p className="whitespace-nowrap cursor-pointer">New Product</p>
+                <p className="whitespace-nowrap cursor-pointer">Login</p>
+              </div>
+            )}
+          </div>
