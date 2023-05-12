@@ -45,3 +45,9 @@ import { HiOutlineUserCircle } from "react-icons/hi";
               </div>
             )}
           </div>
+          8. make the dummuy login page,new product page and improve the css 
+          in app.js:
+           <main className="pt-16 bg-slate-100 min-h-[calc(100vh)]">
+        <Outlet />
+      </main> 
+      9. create the signup page and add the fields of signup page along with css
