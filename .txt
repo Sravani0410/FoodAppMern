@@ -51,3 +51,41 @@ import { HiOutlineUserCircle } from "react-icons/hi";
         <Outlet />
       </main> 
       9. create the signup page and add the fields of signup page along with css
+      10. implement the functionality signup page:
+        i)   const [data, setData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  console.log("fasfa", data);
+  ii) make a function tohandle and submit the form :
+    const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setData((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  };
+  const handleSubmit=(e)=>{
+e.preventDefault();
+const {firstName,email,password,confirmPassword}=data;
+if(firstName && email && password && confirmPassword){
+  if(password===confirmPassword){
+    alert("successfully")
+  }
+  else{
+    alert("check the password and confirm password are not equal")
+  }
+}
+else{
+  alert("please enter required fields")
+}
+  }
+  iii) add the onChange and On submit and link the login page and add the preventDefault after refresh data is not gone 
+  ***** the name and value are same key value like firstName is name and value also data.firstName here firstName is same as value and name******
+
+11. implement the login as same as signup but some fiels are there 
