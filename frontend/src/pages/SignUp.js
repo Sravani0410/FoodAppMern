@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import loginSignupImage from "../assest/login-animation.gif";
 import { BiShow, BiHide } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { ImagetoBase64 } from "../utility/ImagetoBase62";
 const SignUp = () => {
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [data, setData] = useState({
@@ -11,6 +14,7 @@ const SignUp = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    image: "",
   });
   console.log("fasfa", data);
   const handleShowPassword = () => {
@@ -28,27 +32,49 @@ const SignUp = () => {
       };
     });
   };
-  const handleSubmit=(e)=>{
-e.preventDefault();
-const {firstName,email,password,confirmPassword}=data;
-if(firstName && email && password && confirmPassword){
-  if(password===confirmPassword){
-    alert("successfully")
-  }
-  else{
-    alert("check the password and confirm password are not equal")
-  }
-}
-else{
-  alert("please enter required fields")
-}
-  }
+  const handleUploadProfileImage = async (e) => {
+    // console.log(e.target.files[0]);
+    const data = await ImagetoBase64(e.target.files[0]);
+    console.log("jsashg", data);
+    setData((prev) => {
+      return {
+        ...prev,
+        image: data,
+      };
+    });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { firstName, email, password, confirmPassword } = data;
+    if (firstName && email && password && confirmPassword) {
+      if (password === confirmPassword) {
+        alert("successfully");
+        navigate("/login");
+      } else {
+        alert("check the password and confirm password are not equal");
+      }
+    } else {
+      alert("please enter required fields");
+    }
+  };
   return (
     <div className="p-3 md:p-4">
       <div className="w-full max-w-sm bg-white m-auto flex  flex-col p-4">
         {/* <h1 className='text-center text-2xl font-bold'>SignUp</h1> */}
-        <div className="w-20 overflow-hidden rounded-full drop-shadow-md shadow-md m-auto">
+        <div className="w-20 overflow-hidden rounded-full drop-shadow-md shadow-md m-auto relative">
           <img src={loginSignupImage} className="w-full" />
+          <label htmlFor="profileImage">
+            <div className="absolute bottom-0 h-1/3 bg-slate-500 w-full text-center cursor-pointer">
+              <p className="text-sm p-1 text-white">upload</p>
+            </div>
+            <input
+              type={"file"}
+              id="profileImage"
+              accept="image/*"
+              className="hidden"
+              onChange={handleUploadProfileImage}
+            />
+          </label>
         </div>
         <form className="w-full py-2 flex flex-col " onSubmit={handleSubmit}>
           <label htmlFor="firstname" className="">
