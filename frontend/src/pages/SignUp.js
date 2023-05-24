@@ -43,13 +43,26 @@ const SignUp = () => {
       };
     });
   };
-  const handleSubmit = (e) => {
+  console.log("hgdsh", process.env.REACT_APP_SERVER_DOMAIN);
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { firstName, email, password, confirmPassword } = data;
     if (firstName && email && password && confirmPassword) {
       if (password === confirmPassword) {
+        const fetchData = await fetch(
+          `${process.env.REACT_APP_SERVER_DOMAIN}/signup`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          }
+        );
+        const datares = await fetchData.json();
+        console.log("gahsa", datares);
         alert("successfully");
-        navigate("/login");
+        // navigate("/login");
       } else {
         alert("check the password and confirm password are not equal");
       }
