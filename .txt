@@ -89,3 +89,47 @@ else{
   ***** the name and value are same key value like firstName is name and value also data.firstName here firstName is same as value and name******
 
 11. implement the login as same as signup but some fiels are there 
+12.add and upload the image in  Frontend
+13.cretae the backend and install the library and connect to frontend to backend through link
+     frontend:
+     =========
+    i) const fetchData = await fetch(
+          `${process.env.REACT_APP_SERVER_DOMAIN}/signup`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          }
+        );
+        const datares = await fetchData.json();
+        console.log("gahsa", datares);
+    ii)i creact the env file REACT_APP_SERVER_DOMAIN=http://localhost:8080
+    
+    Backend:
+    ========
+
+    i)install the cors,express,nodemon,mongoose,dotenv
+    ii) make the index.js connect and create and run the server:
+    const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+
+const app = express();
+app.use(cors());
+app.use(express.json({ limit: "10mb" }));
+
+const PORT = process.env.PORT || 8080;
+app.get("/", (req, res) => {
+  res.send("server is connected");
+});
+
+app.post("/signup", (req, res) => {
+  console.log(req.body);
+});
+app.listen(PORT, () => {
+  console.log("Server is Running at Port:", PORT);
+});
+ here data is getting in console will we enter the data in frontend
+ 
