@@ -40,20 +40,19 @@ app.get("/", (req, res) => {
 });
 
 app.post("/signup", async (req, res) => {
-//   console.log(req.body);
+  //   console.log(req.body);
   try {
     const { email } = req.body;
     const data = await userModel.findOne({ email: email });
 
     // console.log(data);
-      if (data) {
-        res.send({ message: "Email is already Exists" });
-      }
-      else{
-          const data=userModel(req.body)
-          const save=data.save()
-          res.send({message:"Successfully Signup"})
-      }
+    if (data) {
+      res.send({ message: "Email is already Exists",alert:false });
+    } else {
+      const data = userModel(req.body);
+      const save = data.save();
+      res.send({ message: "Successfully Signup",alert:true });
+    }
   } catch (err) {
     console.log(err);
   }
