@@ -1,18 +1,62 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const dotenv = require("dotenv").config();
 
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 
 const PORT = process.env.PORT || 8080;
+// connect mongodb server
+console.log("sghah", process.env.MONGODB_URL);
+mongoose.set("strictQuery", false);
+mongoose
+  .connect(process.env.MONGODB_URL)
+  .then(() => {
+    console.log("database is connected");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+// schema
+const userSchema = mongoose.Schema({
+  firstName: String,
+  lastName: String,
+  email: {
+    type: String,
+    unique: true,
+  },
+  password: String,
+  confirmPassword: String,
+  image: String,
+});
+//models:
+const userModel = mongoose.model("user", userSchema);
+
 app.get("/", (req, res) => {
   res.send("server is connected");
 });
 
-app.post("/signup", (req, res) => {
-  console.log(req.body);
+app.post("/signup", async (req, res) => {
+//   console.log(req.body);
+  try {
+    const { email } = req.body;
+    const data = await userModel.findOne({ email: email });
+
+    // console.log(data);
+      if (data) {
+        res.send({ message: "Email is already Exists" });
+      }
+      else{
+          const data=userModel(req.body)
+          const save=data.save()
+          res.send({message:"Successfully Signup"})
+      }
+  } catch (err) {
+    console.log(err);
+  }
 });
 app.listen(PORT, () => {
   console.log("Server is Running at Port:", PORT);
