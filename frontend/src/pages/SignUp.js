@@ -60,8 +60,8 @@ const SignUp = () => {
           }
         );
         const datares = await fetchData.json();
-        console.log("gahsa", datares);
-        alert("successfully");
+        // console.log("gahsa", datares);
+        alert(datares.message);
         // navigate("/login");
       } else {
         alert("check the password and confirm password are not equal");
