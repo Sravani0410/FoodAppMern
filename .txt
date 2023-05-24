@@ -133,47 +133,61 @@ app.listen(PORT, () => {
 });
  here data is getting in console will we enter the data in frontend
  14. create schema,model when user signup from frontend to store the data from database
-i)const dotenv = require("dotenv").config();
-ii)connect the server:
-mongoose.set("strictQuery", false);
-mongoose
-  .connect(process.env.MONGODB_URL)
-  .then(() => {
-    console.log("database is connected");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-iii)schema:
-const userSchema = mongoose.Schema({
-  firstName: String,
-  lastName: String,
-  email: {
-    type: String,
-    unique: true,
-  },
-  password: String,
-  confirmPassword: String,
-  image: String,
-});
-iv)model
-const userModel = mongoose.model("user", userSchema);
-v)app.post("/signup", async (req, res) => {
-//   console.log(req.body);
-  try {
-    const { email } = req.body;
-    const data = await userModel.findOne({ email: email });
+    i)const dotenv = require("dotenv").config();
+    ii)connect the server:
+    mongoose.set("strictQuery", false);
+    mongoose
+      .connect(process.env.MONGODB_URL)
+      .then(() => {
+        console.log("database is connected");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    iii)schema:
+    const userSchema = mongoose.Schema({
+      firstName: String,
+      lastName: String,
+      email: {
+        type: String,
+        unique: true,
+      },
+      password: String,
+      confirmPassword: String,
+      image: String,
+    });
+    iv)model
+    const userModel = mongoose.model("user", userSchema);
+    v)app.post("/signup", async (req, res) => {
+    //   console.log(req.body);
+      try {
+        const { email } = req.body;
+        const data = await userModel.findOne({ email: email });
 
-    // console.log(data);
-      if (data) {
-        res.send({ message: "Email is already Exists" });
+        // console.log(data);
+          if (data) {
+            res.send({ message: "Email is already Exists" });
+          }
+          else{
+              const data=userModel(req.body)
+              const save=data.save()
+              res.send({message:"Successfully Signup"})
+          }
+      } catch (err) {
+        console.log(err);
       }
-      else{
-          const data=userModel(req.body)
-          const save=data.save()
-          res.send({message:"Successfully Signup"})
-      }
-  } catch (err) {
-    console.log(err);
-  }
-});
+    });
+15)add the toast library for message is getting from backend 
+   i)app.js:
+      import toast, { Toaster } from "react-hot-toast";
+      add Toaster to top of the div
+      <Toaster />
+   ii)Signup.js:
+      import { toast } from "react-hot-toast"; 
+     toast(datares.message);
+        if(datares.alert){
+          navigate("/login");
+        }
+  iii) add the alert option in index.js in backend
+       res.send({ message: "Email is already Exists",alert:false });
+       res.send({ message: "Successfully Signup",alert:true });
