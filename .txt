@@ -132,4 +132,48 @@ app.listen(PORT, () => {
   console.log("Server is Running at Port:", PORT);
 });
  here data is getting in console will we enter the data in frontend
- 
+ 14. create schema,model when user signup from frontend to store the data from database
+i)const dotenv = require("dotenv").config();
+ii)connect the server:
+mongoose.set("strictQuery", false);
+mongoose
+  .connect(process.env.MONGODB_URL)
+  .then(() => {
+    console.log("database is connected");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+iii)schema:
+const userSchema = mongoose.Schema({
+  firstName: String,
+  lastName: String,
+  email: {
+    type: String,
+    unique: true,
+  },
+  password: String,
+  confirmPassword: String,
+  image: String,
+});
+iv)model
+const userModel = mongoose.model("user", userSchema);
+v)app.post("/signup", async (req, res) => {
+//   console.log(req.body);
+  try {
+    const { email } = req.body;
+    const data = await userModel.findOne({ email: email });
+
+    // console.log(data);
+      if (data) {
+        res.send({ message: "Email is already Exists" });
+      }
+      else{
+          const data=userModel(req.body)
+          const save=data.save()
+          res.send({message:"Successfully Signup"})
+      }
+  } catch (err) {
+    console.log(err);
+  }
+});
