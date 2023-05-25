@@ -191,3 +191,55 @@ app.listen(PORT, () => {
   iii) add the alert option in index.js in backend
        res.send({ message: "Email is already Exists",alert:false });
        res.send({ message: "Successfully Signup",alert:true });
+
+16) login functionality
+     frontend:login.js
+     i)import { toast } from "react-hot-toast";
+     ii) const navigate=useNavigate()
+    iii)   put async in handle submit ==> const handleSubmit = async (e) => {
+    
+      put is fetchData in if condition ==>  const fetchData = await fetch(
+        `${process.env.REACT_APP_SERVER_DOMAIN}/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+      const datares = await fetchData.json();
+      console.log(datares);
+      toast(datares.message);
+     if(datares.alert){
+      setTimeout(()=>{
+        navigate("/")
+      },1000)
+     }
+
+     Backend:index.js
+     app.post("/login", async (req, res) => {
+      console.log(req.body);
+      try {
+        const { email } = req.body;
+        const data = await userModel.findOne({ email: email });
+        if (data) {
+          console.log(data);
+          const dataSend = {
+            _id: data._id,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            image: data.image,
+          };
+          console.log("hdgh", dataSend);
+          res.send({ message: "Successfully Login", alert: true,data:dataSend });
+        } else {
+        //   const data = userModel(req.body);
+        //   const save = data.save();
+          res.send({ message: "Email is not available, please signup", alert: false});
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    });
