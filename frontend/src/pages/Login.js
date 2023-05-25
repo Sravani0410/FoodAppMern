@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import loginSignupImage from "../assest/login-animation.gif";
 import { BiShow, BiHide } from "react-icons/bi";
 import { Link } from "react-router-dom";
-
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
+  const navigate=useNavigate()
   const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({
     email: "",
@@ -21,11 +23,29 @@ const Login = () => {
       };
     });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { email, password } = data;
     if (email && password) {
-      alert("successfully");
+      const fetchData = await fetch(
+        `${process.env.REACT_APP_SERVER_DOMAIN}/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+      const datares = await fetchData.json();
+      console.log(datares);
+      toast(datares.message);
+     if(datares.alert){
+      setTimeout(()=>{
+        navigate("/")
+      },1000)
+     }
+      // alert(datares.message);
     } else {
       alert("please enter required fields");
     }
@@ -73,7 +93,9 @@ const Login = () => {
         </form>
         <p>
           Don't have account ?{" "}
-          <Link to={"/signup"} className="text-red-500 underline">Sign Up</Link>
+          <Link to={"/signup"} className="text-red-500 underline">
+            Sign Up
+          </Link>
         </p>
       </div>
     </div>
