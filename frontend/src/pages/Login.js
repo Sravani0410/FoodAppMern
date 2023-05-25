@@ -4,13 +4,20 @@ import { BiShow, BiHide } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginRedux } from "../redux/userSlice";
 const Login = () => {
-  const navigate=useNavigate()
   const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
+  const userData = useSelector((state) => state);
+  console.log(userData.user);
+
+  const dispatch = useDispatch();
+
   const handleShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
@@ -40,11 +47,12 @@ const Login = () => {
       const datares = await fetchData.json();
       console.log(datares);
       toast(datares.message);
-     if(datares.alert){
-      setTimeout(()=>{
-        navigate("/")
-      },1000)
-     }
+      if (datares.alert) {
+        dispatch(loginRedux(datares));
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      }
       // alert(datares.message);
     } else {
       alert("please enter required fields");
