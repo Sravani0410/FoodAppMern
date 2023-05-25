@@ -9,7 +9,6 @@ app.use(express.json({ limit: "10mb" }));
 
 const PORT = process.env.PORT || 8080;
 // connect mongodb server
-console.log("sghah", process.env.MONGODB_URL);
 mongoose.set("strictQuery", false);
 mongoose
   .connect(process.env.MONGODB_URL)
@@ -35,16 +34,6 @@ const userSchema = mongoose.Schema({
 //signup models:
 const userModel = mongoose.model("user", userSchema);
 
-// login schema
-// const loginSchema = mongoose.Schema({
-//   email: {
-//     type: String,
-//     unique: true,
-//   },
-//   password: String,
-// });
-// login model:
-// const loginModel=mongoose.model("login")
 app.get("/", (req, res) => {
   res.send("server is connected");
 });
@@ -87,8 +76,6 @@ app.post("/login", async (req, res) => {
       console.log("hdgh", dataSend);
       res.send({ message: "Successfully Login", alert: true,data:dataSend });
     } else {
-    //   const data = userModel(req.body);
-    //   const save = data.save();
       res.send({ message: "Email is not available, please signup", alert: false});
     }
   } catch (err) {
