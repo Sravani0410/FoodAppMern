@@ -243,3 +243,99 @@ app.listen(PORT, () => {
         console.log(err);
       }
     });
+17) after login the profile image should be changed by using redux-toolkit
+     i) install @reduxjs/toolkit,redux,react-redux
+     ii)create the redux folder in that create
+         index.js:
+         ========
+         import { configureStore } from "@reduxjs/toolkit";
+          import userSliceReducer from "./userSlice";
+          export const store = configureStore({
+            reducer: {
+              user:userSliceReducer
+            },
+          });
+          userSlice.js:
+          ============
+          import { createSlice } from "@reduxjs/toolkit";
+          const initialState = {
+          email: "",
+          firstName: "",
+          image: "",
+          lastName: "",
+          _id: "",
+        };
+        export const userSlice = createSlice({
+          name: "user",
+          initialState,
+          reducers: {
+            loginRedux: (state, action) => {
+              console.log(action.payload.data);
+              //   state.user=action.payload.data
+              state._id = action.payload.data._id;
+              state.firstName = action.payload.data.firstName;
+              state.lastName = action.payload.data.lastName;
+              state.email = action.payload.data.email;
+              state.image = action.payload.data.image;
+            },
+            logoutRedux: (state, action) => {
+              state._id = "";
+              state.firstName = "";
+              state.lastName = "";
+              state.email = "";
+              state.image = "";
+            },
+          },
+        });
+        export const { loginRedux, logoutRedux } = userSlice.actions;
+        export default userSlice.reducer;
+    iii)in main index.js import store and provider before doing the ii)
+        import { store } from "./redux/index";
+        import { Provider } from "react-redux";
+        <Provider store={store}>
+            <RouterProvider router={router}/>
+        </Provider>
+    iv)header.js
+       a) const userData = useSelector((state) => state.user);
+       b)  {userData.image ? (
+                <img src={userData.image} className="h-full w-full " />
+              ) : (
+                <HiOutlineUserCircle />
+              )}
+    v) login.js:
+       =========
+    a)import { useDispatch, useSelector } from "react-redux";
+      import { loginRedux } from "../redux/userSlice";
+    b) const navigate = useNavigate();
+      const userData = useSelector((state) => state);
+      const dispatch = useDispatch();
+    c)if (datares.alert) {
+        dispatch(loginRedux(datares));
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      }
+    vi) after login the main page logout should be shown for that in redux follow ii)
+       and in header.js:
+              ==========
+         a)import { useDispatch, useSelector } from "react-redux";
+            import {logoutRedux} from "../redux/userSlice";
+            import {toast} from "react-hot-toast"
+         b) const dispatch=useDispatch()
+         c) const handleLogout=()=>{
+              dispatch(logoutRedux(userData))
+              toast("Logout Successfully")
+            }
+         d)  {userData.image ? (
+                  <p className="cursor-pointer text-white bg-red-500 px-2" onClick={handleLogout}>
+                    Logout
+                  </p>
+                ) : (
+                  <Link
+                    to={"login"}
+                    className="whitespace-nowrap cursor-pointer px-2"
+                  >
+                    Login
+                  </Link>
+                )}
+          
