@@ -74,15 +74,43 @@ app.post("/login", async (req, res) => {
         image: data.image,
       };
       console.log("hdgh", dataSend);
-      res.send({ message: "Successfully Login", alert: true,data:dataSend });
+      res.send({ message: "Successfully Login", alert: true, data: dataSend });
     } else {
-      res.send({ message: "Email is not available, please signup", alert: false});
+      res.send({
+        message: "Email is not available, please signup",
+        alert: false,
+      });
     }
   } catch (err) {
     console.log(err);
   }
 });
 
+// product section:
+
+// product schema:
+const productSchema = mongoose.Schema({
+  name: String,
+  category: String,
+  image: String,
+  price: Number,
+  description: String,
+});
+// product model:
+const productModel=mongoose.model("product",productSchema)
+
+// product api
+app.post("/uploadProduct",async(req,res)=>{
+  // console.log(req.body)
+  try{
+    const data= await productModel(req.body)
+    const dataSave=await data.save()
+  res.send({message:"Responce is successfully"})
+  }
+  catch(err){
+    console.log(err)
+  }
+})
 app.listen(PORT, () => {
   console.log("Server is Running at Port:", PORT);
 });
