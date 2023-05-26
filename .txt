@@ -520,3 +520,61 @@ app.listen(PORT, () => {
     .env--->only admin is able to upload the category
     ====
     REACT_APP_ADMIN_EMAIL
+
+19)make ethe product should be access to admin for that env make the email 
+   i).env:REACT_APP_ADMIN_EMAIL=sandhyadevipyla4@gmail.com
+     ====
+  ii) {userData.email===process.env.REACT_APP_ADMIN_EMAIL &&  <Link
+                  to={"newproduct"}
+                  className="whitespace-nowrap cursor-pointer px-2"
+                >
+                  New Product
+                </Link> }
+  iii) display the firstname behind the logout:
+      <p className="cursor-pointer text-white bg-red-500 px-2" onClick={handleLogout}>
+                    Logout({userData.firstName})
+                  </p>
+
+20) so know we have to disply the upload products for that in backend make the get api
+    backend:
+    ======
+          app.get("/product", async (req, res) => {
+        const data = await productModel.find({});
+        res.send(JSON.stringify(data));
+      });
+21) and also store the products in redux through that we have to display for make the redux for that:
+    app.js:
+    =======
+    i)import { useEffect } from "react";
+      import {setDataProduct} from "./redux/productSlice"
+      import { useDispatch, useSelector } from "react-redux";
+       const dispatch=useDispatch()
+        const productData=useSelector((state)=>state.product)
+        useEffect(()=>{
+          (async()=>{
+          const res=await fetch(`${process.env.REACT_APP_SERVER_DOMAIN}/product`) 
+          const resData =await res.json()
+          console.log(resData)
+          dispatch(setDataProduct(resData))
+          })()
+        },[])
+    ii) make the productSlice.js:
+       import { createSlice } from "@reduxjs/toolkit";
+        const initialState={
+            productList:[]
+        }
+        export const productSlice=createSlice({
+          name:"product",
+          initialState,
+          reducers:{
+            setDataProduct:(state,action)=>{
+                state.productList=[...action.payload]
+            }
+          }
+        })
+        export const {setDataProduct}=productSlice.actions
+        export default productSlice.reducer
+    iii) import productSlice.js in redux/index.js:
+        i)import productSliceReducer from "./productSlice"
+        ii)product:productSliceReducer
+ 
