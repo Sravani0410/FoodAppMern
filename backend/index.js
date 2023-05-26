@@ -102,15 +102,18 @@ const productModel=mongoose.model("product",productSchema)
 // product api
 app.post("/uploadProduct",async(req,res)=>{
   // console.log(req.body)
-  try{
-    const data= await productModel(req.body)
-    const dataSave=await data.save()
-  res.send({message:"Responce is successfully"})
+  try {
+    const data = await productModel(req.body);
+    const dataSave = await data.save();
+    res.send({ message: "Responce is successfully" });
+  } catch (err) {
+    console.log(err);
   }
-  catch(err){
-    console.log(err)
-  }
-})
+});
+app.get("/product", async (req, res) => {
+  const data = await productModel.find({});
+  res.send(JSON.stringify(data));
+});
 app.listen(PORT, () => {
   console.log("Server is Running at Port:", PORT);
 });
