@@ -55,15 +55,16 @@ const Header = () => {
             </div>
             {showmenu && (
               <div className="absolute right-2 bg-white py-2 shadow drop-shadow flex flex-col">
-                <Link
+                {userData.email===process.env.REACT_APP_ADMIN_EMAIL &&  <Link
                   to={"newproduct"}
                   className="whitespace-nowrap cursor-pointer px-2"
                 >
                   New Product
-                </Link>
+                </Link> }
+               
                 {userData.image ? (
                   <p className="cursor-pointer text-white bg-red-500 px-2" onClick={handleLogout}>
-                    Logout
+                    Logout({userData.firstName})
                   </p>
                 ) : (
                   <Link
