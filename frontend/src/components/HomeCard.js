@@ -3,7 +3,8 @@ import React from "react";
 const HomeCard = ({ name, image, category, price, loading }) => {
   return (
     <div className="bg-white shadow-md p-2 rounded min-w-[200px]">
-      {name ? (
+      {
+      name ? (
         <>
           <div className="w-40 min-h-[150px]">
             <img src={image} className="h-full w-full" />
