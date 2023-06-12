@@ -578,3 +578,81 @@ app.listen(PORT, () => {
         i)import productSliceReducer from "./productSlice"
         ii)product:productSliceReducer
  
+21) making home page and create the home card folder along the loader :
+    i)const HomeCard = ({ name, image, category, price, loading }) => {
+  return (
+    <div className="bg-white shadow-md p-2 rounded min-w-[200px]">
+      {name ? (
+        <>
+          <div className="w-40 min-h-[150px]">
+            <img src={image} className="h-full w-full" />
+          </div>
+          <h3 className="font-semibold text-slate-600 text-center capitalize text-lg">
+            {name}
+          </h3>
+          <p className="text-center text-slate-500 font-medium">{category}</p>
+          <p className="text-center font-bold">
+            <span className="text-red-500">₹</span>
+            <span>{price}</span>
+          </p>
+        </>
+      ) : (
+        <div className="flex justify-center items-center h-full">
+          <p>{loading}</p>
+        </div>
+      )}
+    </div>
+  );
+};
+ii) home.js :  const loadingArray = new Array(4).fill(null);
+    =======
+      {homeProductCardList[0]
+            ? homeProductCardList.map((e) => {
+                return (
+                  <HomeCard
+                    key={e._id}
+                    image={e.image}
+                    name={e.name}
+                    price={e.price}
+                    category={e.category}
+                  />
+                );
+              })
+            : loadingArray.map((el, index) => {
+                return <HomeCard key={index} loading={"Loading..."} />;
+              })}
+
+22) add card feature in home page:
+     i)home.js
+        ======
+        i) const homeProductCardListVegetables = productData.filter(
+          (el) => el.category === "vegetable",
+          []
+        );
+        ii)<div className="">
+        <h2 className="text-bold text-2xl text-slate-800">Fresh Vegetables</h2>
+        <div className="flex gap-5">
+          {homeProductCardListVegetables.map((el) => {
+            return (
+              <CardFeature
+                key={el._id}
+                name={el.name}
+                category={el.category}
+                price={el.price}
+                image={el.image}
+              />
+            );
+          })}
+        </div>
+      </div>
+      iii)cardfeature.js:
+           ==============
+           const CardFeature = ({ image, name, price, category }) => {
+            return (
+              <div className="w-full min-w-[280px] bg-white shadow-2xl p-4 py-5 px-4">
+                <div className="h-28">
+                  <img src={image} className="h-full" />
+                </div>
+              </div>
+            );
+          };
