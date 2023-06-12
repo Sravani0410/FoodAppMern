@@ -17,7 +17,6 @@ const SignUp = () => {
     confirmPassword: "",
     image: "",
   });
-  console.log("fasfa", data);
   const handleShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
@@ -34,9 +33,7 @@ const SignUp = () => {
     });
   };
   const handleUploadProfileImage = async (e) => {
-    // console.log(e.target.files[0]);
     const data = await ImagetoBase64(e.target.files[0]);
-    console.log("jsashg", data);
     setData((prev) => {
       return {
         ...prev,
@@ -44,7 +41,6 @@ const SignUp = () => {
       };
     });
   };
-  console.log("hgdsh", process.env.REACT_APP_SERVER_DOMAIN);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { firstName, email, password, confirmPassword } = data;
@@ -61,8 +57,6 @@ const SignUp = () => {
           }
         );
         const datares = await fetchData.json();
-        // console.log("gahsa", datares);
-
         // alert(datares.message);
         toast(datares.message);
         if(datares.alert){

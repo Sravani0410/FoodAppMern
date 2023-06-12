@@ -10,7 +10,6 @@ const NewProduct = () => {
     price: "",
     description: "",
   });
-  console.log(data);
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setData((prev) => {
@@ -21,9 +20,7 @@ const NewProduct = () => {
     });
   };
   const uploadImage = async (e) => {
-    // console.log("jfsgd", e);
     const data = await ImagetoBase64(e.target.files[0]);
-    // console.log(data);
     setData((prev) => {
       return {
         ...prev,
@@ -47,7 +44,6 @@ const NewProduct = () => {
         }
       );
       const fetchres = await fetchData.json();
-      console.log(fetchres);
       toast(fetchres.message);
       setData(() => {
         return {
