@@ -736,3 +736,15 @@ ii) home.js :  const loadingArray = new Array(4).fill(null);
             </button>
           </div>
         </div>
+25) add next and prev button functionlity is working 
+    i) home.js:
+      ========
+       const nextProduct = () => {
+        slideProductRef.current.scrollLeft += 200;
+      };
+      const prevProduct = () => {
+        slideProductRef.current.scrollLeft -= 200;
+      };
+    ii)add css in card feature bcoz the description is overflowing data:
+       i) add overflow-hidden in main div:<div className="w-full min-w-[200px] bg-white hover:shadow-lg drop-shadow-lg pt-5 px-4 cursor-pointer flex flex-col overflow-hidden">
+       ii) add whitespace-nowrap overflow-hidden in name:  <h3 className="font-semibold text-slate-600 capitalize text-lg mt-4 whitespace-nowrap overflow-hidden">

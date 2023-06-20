@@ -3,7 +3,7 @@ import HomeCard from "../components/HomeCard";
 import { useSelector } from "react-redux";
 import CardFeature from "../components/CardFeature";
 import { GrPrevious, GrNext } from "react-icons/gr";
-
+import {CiForkAndKnife} from "react-icons/ci"
 const Home = () => {
   const productData = useSelector((state) => state.product.productList);
   console.log(productData);
@@ -106,6 +106,16 @@ const Home = () => {
                 <CardFeature loading="Loading...." />
               ))}
         </div>
+      </div>
+      <div className="my-5">
+      <h2 className="text-bold text-2xl text-slate-800 mb-4">
+           Your Product
+          </h2>
+      <div className="">
+        <div className="">
+          <CiForkAndKnife/>
+        </div>
+      </div>
       </div>
     </div>
   );
